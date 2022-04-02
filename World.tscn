@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://icon.png" type="Texture" id=1]
 [ext_resource path="res://Hand.gd" type="Script" id=2]
@@ -7,18 +7,51 @@
 [ext_resource path="res://fonts/BasicFont.tres" type="DynamicFont" id=5]
 [ext_resource path="res://fonts/TitleFont.tres" type="DynamicFont" id=6]
 [ext_resource path="res://fonts/raw/Roboto-Black.ttf" type="DynamicFontData" id=7]
+[ext_resource path="res://fonts/raw/Roboto-Regular.ttf" type="DynamicFontData" id=8]
+[ext_resource path="res://MainMenuUI.gd" type="Script" id=9]
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 142.897, 10 )
 
 [sub_resource type="CircleShape2D" id=1]
 
+[sub_resource type="StyleBoxEmpty" id=7]
+
+[sub_resource type="StyleBoxFlat" id=8]
+bg_color = Color( 0.235294, 0.235294, 0.235294, 1 )
+
+[sub_resource type="StyleBoxFlat" id=9]
+bg_color = Color( 0.0980392, 0.0980392, 0.0980392, 1 )
+
+[sub_resource type="StyleBoxFlat" id=10]
+bg_color = Color( 0.45098, 0.45098, 0.45098, 1 )
+
 [sub_resource type="Theme" id=3]
 default_font = ExtResource( 5 )
+Button/colors/font_color = Color( 1, 1, 1, 1 )
+Button/colors/font_color_disabled = Color( 1, 1, 1, 1 )
+Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
+Button/colors/font_color_hover = Color( 1, 1, 1, 1 )
+Button/colors/font_color_pressed = Color( 1, 1, 1, 1 )
+Button/constants/hseparation = 0
+Button/fonts/font = ExtResource( 5 )
+Button/styles/disabled = null
+Button/styles/focus = SubResource( 7 )
+Button/styles/hover = SubResource( 8 )
+Button/styles/normal = SubResource( 9 )
+Button/styles/pressed = SubResource( 10 )
 
 [sub_resource type="DynamicFont" id=4]
 size = 38
 font_data = ExtResource( 7 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 30
+font_data = ExtResource( 7 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 74
+font_data = ExtResource( 8 )
 
 [node name="World" type="Node2D"]
 
@@ -41,7 +74,7 @@ polygon = PoolVector2Array( 2, -14, -6, -9, -10, 0, -5, 9, 3, 13, 357, 7, 364, 5
 position = Vector2( 364, 0 )
 
 [node name="Stick" type="RigidBody2D" parent="."]
-position = Vector2( 301, 242.288 )
+position = Vector2( 301, 348 )
 rotation = -1.5708
 mass = 10.0
 
@@ -60,7 +93,7 @@ color = Color( 0.203922, 0.145098, 0.145098, 1 )
 polygon = PoolVector2Array( -65.8017, 2.18045, 41.2372, 8.07071, 42.5168, 10.9625, 48.4898, 10.3943, 50.2914, 8.21393, 78.355, 7.55344, 105.897, 11.9651, 112.676, 9.31128, 162.64, 6.56744, 217.204, -0.631866, 217.014, -2.62291, 164.253, 2.39603, 126.139, 3.008, 131.639, -2.53769, 140.22, -7.37198, 139.035, -9.26831, 120.878, 0.494965, 117.18, 3.86026, 106.229, 4.90192, 71.6244, 0.157562, 7.1544, -1.74591, 2.50932, -3.4277, -17.2112, -4.45068, -19.4863, -7.24783, -24.5585, -7.76984, -27.3557, -5.49475, -62.6719, -7.15793 )
 
 [node name="Hand" type="KinematicBody2D" parent="."]
-position = Vector2( 301, 306 )
+position = Vector2( 301, 411.712 )
 collision_layer = 0
 collision_mask = 0
 script = ExtResource( 2 )
@@ -116,9 +149,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -64.0
-margin_top = 45.0
-margin_right = 64.0
-margin_bottom = 59.0
+margin_top = 110.0
+margin_right = 82.0
+margin_bottom = 129.0
 text = "Press 'R' to try again"
 align = 1
 
@@ -147,10 +180,107 @@ custom_fonts/font = SubResource( 4 )
 text = "0.0s"
 align = 1
 
+[node name="Rank" type="Label" parent="CanvasLayer/GameUI/LoseMessage"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -296.0
+margin_top = 52.0
+margin_right = 296.0
+margin_bottom = 98.0
+custom_fonts/font = SubResource( 4 )
+text = "Kindergarten Chad"
+align = 1
+
+[node name="Message2" type="Label" parent="CanvasLayer/GameUI/LoseMessage"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -97.5
+margin_top = 28.0
+margin_right = 97.5
+margin_bottom = 47.0
+text = "Your Rank:"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="TimerDisplay" type="Label" parent="CanvasLayer/GameUI"]
+margin_top = 32.0
+margin_right = 43.0
+margin_bottom = 68.0
+custom_fonts/font = SubResource( 6 )
+text = "0.0"
+
+[node name="RankDisplay" type="Label" parent="CanvasLayer/GameUI"]
 margin_right = 40.0
 margin_bottom = 14.0
-text = "0.0"
+custom_fonts/font = SubResource( 6 )
+text = "Kid"
+
+[node name="MainMenuUI" type="Control" parent="CanvasLayer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource( 3 )
+script = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="CanvasLayer/MainMenuUI"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -308.5
+margin_top = -289.0
+margin_right = 308.5
+margin_bottom = -196.0
+custom_fonts/font = SubResource( 5 )
+text = "Balance The Stick"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StartButton" type="Button" parent="CanvasLayer/MainMenuUI"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -57.0
+margin_top = 183.0
+margin_right = 57.0
+margin_bottom = 208.0
+text = "Start Game"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Credits" type="Label" parent="CanvasLayer/MainMenuUI"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -133.5
+margin_top = -204.0
+margin_right = 133.5
+margin_bottom = -185.0
+text = "Made by miziziziz for Ludum Dare 50"
+
+[node name="Controls" type="Label" parent="CanvasLayer/MainMenuUI"]
+margin_left = 6.0
+margin_top = 251.0
+margin_right = 110.0
+margin_bottom = 314.0
+text = "Controls:
+Mouse - move
+R - restart"
 
 [connection signal="game_lost" from="Hand" to="CanvasLayer/GameUI" method="game_lost"]
 [connection signal="hand_pos_updated" from="Hand" to="Arm" method="set_goal_hand_pos"]
+[connection signal="button_up" from="CanvasLayer/MainMenuUI/StartButton" to="Hand" method="restart"]

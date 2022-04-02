@@ -14,15 +14,28 @@ signal hand_pos_updated
 
 func _ready():
 	stick = get_node(stick_path)
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	emit_signal("hand_pos_updated", global_position)
+	
+	if GameManager.game_started:
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+		stick.mode = RigidBody2D.MODE_RIGID
+	else:
+		stick.mode = RigidBody2D.MODE_KINEMATIC
+		set_physics_process(false)
 
 func _process(delta):
 	if Input.is_action_just_pressed("restart"):
-		get_tree().call_group("instanced", "queue_free")
-		get_tree().reload_current_scene()
+		restart()
 	if Input.is_action_just_pressed("exit"):
+		#Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		get_tree().quit()
+	if Input.is_action_just_pressed("click") and GameManager.game_started:
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+func restart():
+	GameManager.game_started = true
+	get_tree().call_group("instanced", "queue_free")
+	get_tree().reload_current_scene()
 
 var mouse_delta = Vector2()
 func _input(event):
