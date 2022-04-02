@@ -29,7 +29,7 @@ func _process(delta):
 	if Input.is_action_just_pressed("exit"):
 		#Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		get_tree().quit()
-	if Input.is_action_just_pressed("click") and GameManager.game_started:
+	if Input.is_action_just_pressed("click") and GameManager.game_started and !lost:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func restart():
@@ -61,12 +61,12 @@ func _physics_process(delta):
 	global_position.y = clamp(global_position.y, 0, v_r.y)
 	emit_signal("hand_pos_updated", global_position)
 	
-	
-	
 	if !lost and stick.global_rotation_degrees > 0:
 		lost = true
 		$PinJoint2D.node_b = ""
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		emit_signal("game_lost")
+		set_physics_process(false)
 	
 	if !lost:
 		var s_r = stick.global_rotation_degrees
