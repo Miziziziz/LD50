@@ -32,10 +32,10 @@ func _process(delta):
 	time_alive += delta
 	if time_alive > time_to_activate_wind:
 		activate_wind()
-		time_to_activate_wind += rng.rand_range(min_wind_inc, max_wind_inc)
+		time_to_activate_wind += rng.randf_range(min_wind_inc, max_wind_inc)
 	if time_alive > time_to_throw_rocks:
 		spawn_rock()
-		var rt = rng.rand_range(min_rock_throw_inc, max_rock_throw_inc)
+		var rt = rng.randf_range(min_rock_throw_inc, max_rock_throw_inc)
 		if time_alive > rocks_double_time:
 			rt /= 2.0
 		time_to_throw_rocks += rt
@@ -56,4 +56,4 @@ func spawn_rock():
 	if !spawn_left:
 		rock_inst.global_rotation_degrees = 180.0
 		rock_inst.global_position.x = $RockSpawnPoints/SpawnRight.global_position.x
-	rock_inst.global_position.y = rng.rand_range(rock_top_height, rock_bot_height)
+	rock_inst.global_position.y = rng.randf_range(rock_top_height, rock_bot_height)
