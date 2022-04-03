@@ -62,11 +62,7 @@ func _physics_process(delta):
 	emit_signal("hand_pos_updated", global_position)
 	
 	if !lost and stick.global_rotation_degrees > 0:
-		lost = true
-		$PinJoint2D.node_b = ""
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		emit_signal("game_lost")
-		set_physics_process(false)
+		drop_stick()
 	
 	if !lost:
 		var s_r = stick.global_rotation_degrees
@@ -81,3 +77,14 @@ func _physics_process(delta):
 			stick_time_stable = 0.0
 		stick_last_rotation = s_r
 	hand_last_pos = global_position
+
+func drop_stick(play_hit_sound=false):
+	if !lost:
+		lost = true
+		$PinJoint2D.node_b = ""
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		emit_signal("game_lost")
+		set_physics_process(false)
+		if play_hit_sound:
+			$RockHitSound.play()
+		$LoseSound.play()

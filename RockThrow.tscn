@@ -1,0 +1,146 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://RockThrow.gd" type="Script" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://sfx/throw2.wav" type="AudioStream" id=3]
+[ext_resource path="res://sfx/prep2.wav" type="AudioStream" id=4]
+
+[sub_resource type="Animation" id=5]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Arrow:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "throw"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Arrow:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true, false, true, false, true, false ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 1.4 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "throw"
+} ]
+}
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 7.0
+
+[sub_resource type="Animation" id=2]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Graphics:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 360.0 ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "spin"
+length = 0.5
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Graphics:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 360.0 ]
+}
+
+[node name="RockThrow" type="Node2D" groups=["instanced"]]
+script = ExtResource( 1 )
+
+[node name="Arrow" type="Node2D" parent="."]
+visible = false
+position = Vector2( 64, 0 )
+
+[node name="Polygon2D" type="Polygon2D" parent="Arrow"]
+color = Color( 0.980392, 0.929412, 0.4, 1 )
+polygon = PoolVector2Array( 0, 8, 56, 8, 56, 16, 80, 0, 56, -16, 56, -8, 0, -8 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "throw"
+anims/RESET = SubResource( 5 )
+anims/throw = SubResource( 4 )
+
+[node name="Rock" type="RigidBody2D" parent="."]
+collision_layer = 0
+mode = 3
+mass = 20.0
+gravity_scale = 0.0
+continuous_cd = 1
+contacts_reported = 1
+contact_monitor = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rock"]
+shape = SubResource( 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rock"]
+autoplay = "spin"
+anims/RESET = SubResource( 2 )
+anims/spin = SubResource( 3 )
+
+[node name="Graphics" type="Node2D" parent="Rock"]
+rotation = 6.28319
+
+[node name="Polygon2D" type="Polygon2D" parent="Rock/Graphics"]
+color = Color( 0.254902, 0.254902, 0.254902, 1 )
+polygon = PoolVector2Array( -8, -6, -2, -10, 9, -3, 9, 0, 8, 5, -6, 7, -9, 0 )
+
+[node name="DeleteTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+autostart = true
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( -109, 0 )
+texture = ExtResource( 2 )
+
+[node name="PrepSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+volume_db = 8.0
+bus = "SFX"
+
+[node name="ThrowSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+bus = "SFX"
+
+[connection signal="timeout" from="DeleteTimer" to="." method="queue_free"]

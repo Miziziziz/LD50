@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/you_lose_creepy_version.wav-d409dc9c9a8f2f34abf6aeaa871e81d3.sample"
+
+[deps]
+
+source_file="res://sfx/you_lose_creepy_version.wav"
+dest_files=[ "res://.import/you_lose_creepy_version.wav-d409dc9c9a8f2f34abf6aeaa871e81d3.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

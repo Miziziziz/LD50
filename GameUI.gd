@@ -7,13 +7,15 @@ onready var rank_display = $RankDisplay
 
 var time_alive = 0.0
 
+const rank_increment = 10.0
 var ranks = [
-	[100.0, "Literally God"],
-	[80.0, "One With The Stick"],
-	[60.0, "Recess Chad"],
-	[40.0, "Dinosaur Nerd"],
-	[20.0, "Good At Math"],
-	[0.0, "Snot-Nosed Brat"],
+	"Snot-Nosed Brat",
+	"Velcro Sneakers",
+	"Uses Stickers",
+	"Good At Math",
+	"Dinosaur Nerd",
+	"Recess Chad",
+	"One With The Stick",
 ]
 
 func _ready():
@@ -37,7 +39,9 @@ func get_timer_str():
 	return str(time_alive).pad_decimals(1) + "s"
 
 func get_rank():
-	for rank in ranks:
-		if time_alive > rank[0]:
-			return rank[1]
-	return ranks[-1][1]
+	var last_rank = ranks[0]
+	for i in range(ranks.size()):
+		if time_alive < i * rank_increment:
+			break
+		last_rank = ranks[i]
+	return last_rank
